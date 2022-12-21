@@ -17,7 +17,7 @@ class BWFDelegate extends WatchUi.InputDelegate {
     private var _view = getView();
 
     var myCounter = 0;
-
+    var session = null;
 
     function initialize() {
         InputDelegate.initialize();
@@ -57,17 +57,28 @@ class BWFDelegate extends WatchUi.InputDelegate {
         return false;
     }
 
-    function onSelect() as Boolean {
-        if (_inProgress == false) {
-            _inProgress = true;
-            Sys.println("DEBUG: function BWFDelegate.onSelect() -> startCountdown()");
-            startCountdown();
-        } else {
-            _inProgress = false;
-            Sys.println("DEBUG: function BWFDelegate.onSelect() -> stopCountdown()");
-            _timer.stop();
+    // use the select Start/Stop or touch for recording
+    function onSelect() {
+        if (Toybox has :ActivityRecording) {                            // check device for activity recording
+            if ((session == null) || (session.isRecording() == false)) {
+                session = ActivityRecording.createSession({             // set up recording session
+                        :name=>"Badminton",                               // set session name
+                        :sport=>ActivityRecording.SPORT_RUNNING,        // set sport type
+                        :subSport=>ActivityRecording.SUB_SPORT_TREADMILL  // set sub sport type
+                });
+                session.start();                                        // call start session
+                Sys.println("DEBUG: function BWFDelegate.onSelect() -> startCountdown()");
+                startCountdown();
+            }
+            else if ((session != null) && session.isRecording()) {
+                session.stop();                                         // stop the session
+                session.save();                                         // save the session
+                session = null;                                         // set session control variable to null
+                Sys.println("DEBUG: function BWFDelegate.onSelect() -> stopCountdown()");
+                _timer.stop();
+            }
         }
-        return true;
+        return true;                                                    // return true for onSelect function
     }
 
     function onBack() {
@@ -76,25 +87,24 @@ class BWFDelegate extends WatchUi.InputDelegate {
     }
 
     function onNextPage() {
-        Sys.println("DEBUG: function BWFDelegate.onNextPage()");
+        //Sys.println("DEBUG: function BWFDelegate.onNextPage()");
         return true;
     }
 
     function onPreviousPage() {
-        Sys.println("DEBUG: function BWFDelegate.onPreviousPage()");
+        //Sys.println("DEBUG: function BWFDelegate.onPreviousPage()");
         return true;
     }
 
     function startCountdown() {
-        Sys.println("DEBUG: function BWFDelegate.startCountdown()");
-
+        //Sys.println("DEBUG: function BWFDelegate.startCountdown()");
         _timer = new Timer.Timer();
         // every second call this method -> updateCountdownValue
         _timer.start(method(:updateParamValues), 1000, true);
     }
 
     function updateParamValues() as Void {
-        Sys.println("DEBUG: bwf_App.updateParamValues() -> HR / MAX-HR / CALORIES");
+        //Sys.println("DEBUG: bwf_App.updateParamValues() -> HR / MAX-HR / CALORIES");
         var actInfo = Activity.getActivityInfo();
         var genericZoneInfo = UserProfile.getHeartRateZones(UserProfile.HR_ZONE_SPORT_GENERIC);
         myCounter = myCounter +1;
