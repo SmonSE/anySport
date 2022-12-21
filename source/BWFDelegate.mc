@@ -96,6 +96,7 @@ class BWFDelegate extends WatchUi.InputDelegate {
     function updateParamValues() as Void {
         Sys.println("DEBUG: bwf_App.updateParamValues() -> HR / MAX-HR / CALORIES");
         var actInfo = Activity.getActivityInfo();
+        var genericZoneInfo = UserProfile.getHeartRateZones(UserProfile.HR_ZONE_SPORT_GENERIC);
         myCounter = myCounter +1;
 
         _view.setCurrentHR(actInfo.currentHeartRate);
@@ -103,5 +104,43 @@ class BWFDelegate extends WatchUi.InputDelegate {
         _view.setCalories(actInfo.calories);
         _view.leftTimer(myCounter);
 
+        if (actInfo.currentHeartRate != null) {
+            var hr = actInfo.currentHeartRate;
+
+            if ( hr <= genericZoneInfo[0] )  // < 124
+            {
+                _view.setCircleColor(CircleColor.White);
+            }
+            else if ( hr > genericZoneInfo[0] && hr <= genericZoneInfo[1] )  // >124 && <135
+            {    
+                _view.setCircleColor(CircleColor.Grey);
+            }
+            else if ( hr > genericZoneInfo[1] && hr <= genericZoneInfo[2] )  // >135 && <147
+            {    
+                _view.setCircleColor(CircleColor.Blue);
+            }
+            else if ( hr > genericZoneInfo[2] && hr <= genericZoneInfo[3] )  // >147 && <159
+            {
+                _view.setCircleColor(CircleColor.Green);
+            }
+            else if ( hr > genericZoneInfo[3] && hr <= genericZoneInfo[4] )  // >159 && <172
+            {
+                _view.setCircleColor(CircleColor.Orange);
+            }
+            else if ( hr > genericZoneInfo[4] && hr <= genericZoneInfo[5] ) // >172 && <185
+            {
+                _view.setCircleColor(CircleColor.Red);
+            }
+            else if ( hr >= genericZoneInfo[5] ) // >185
+            {
+                _view.setCircleColor(CircleColor.DarkRed);
+            }
+            else {
+                //Sys.println("DEFAULT: " + hr + " -- " + genericZoneInfo);
+            }
+        } 
+        else {
+            _view.setCircleColor(CircleColor.White);
+        }
     }
 }

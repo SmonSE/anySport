@@ -89,7 +89,7 @@
     />
     <label
         id="left_timer"
-        text="00:00"
+        text="00:00:00"
         x="center"
         y="80%"
         font="Gfx.FONT_MEDIUM"

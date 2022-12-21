@@ -1,4 +1,4 @@
-class CircleColour {
+class CircleColor {
     enum {
         White,
         Grey,

@@ -23,6 +23,7 @@ class BWFView extends WatchUi.View {
 
     //getActivityInfo
     var actInfo = Activity.getActivityInfo();
+    var label, color;
 
     function initialize() {
         View.initialize();
@@ -39,17 +40,18 @@ class BWFView extends WatchUi.View {
         _leftTimeElement = findDrawableById("left_timer");
         _cyclesLeftElement = findDrawableById("cycles_left");
         _drawLineUpDown = findDrawableById("crosshair_up");
+
     }
 
-    // Called when this View is brought to the foreground. Restore
-    // the state of this View and prepare it to be shown. This includes
-    // loading resources into memory.
+    // Called when this View is brought to the foreground. 
+    // Restore the state of this View and prepare it to be shown. 
+    // This includes loading resources into memory.
     function onShow() as Void {
     }
 
     // Update the view
     function onUpdate(dc as Dc) as Void {
-        //Sys.println("DEBUG: function BWFView.onUpdate()");          // wird alle halbe Sekunde aufgerufen
+        //Sys.println("DEBUG: function BWFView.onUpdate()");
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
 
@@ -128,55 +130,16 @@ class BWFView extends WatchUi.View {
     }
 
     function drawCircle(dc) as Void {
-        if (actInfo.currentHeartRate != null)
-        {
-            var hr = actInfo.currentHeartRate;
-            var genericZoneInfo = UserProfile.getHeartRateZones(UserProfile.HR_ZONE_SPORT_GENERIC);
-
-            //Sys.println("OVERVIEW HR: " + hr + " -- " + genericZoneInfo);
-
-            if ( hr <= genericZoneInfo[0] )  // < 124
-            {
-            dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);  
-            //Sys.println("HR-ZONE 0: " + " < " +genericZoneInfo[0]);
-            }
-            else if ( hr > genericZoneInfo[0] && hr <= genericZoneInfo[1] )  // >124 && <135
-            {    
-            dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_TRANSPARENT); 
-            //Sys.println("HR-ZONE 1: " + genericZoneInfo[0] + "-" +  genericZoneInfo[1]);
-            }
-            else if ( hr > genericZoneInfo[1] && hr <= genericZoneInfo[2] )  // >135 && <147
-            {    
-            dc.setColor(Gfx.COLOR_BLUE, Gfx.COLOR_TRANSPARENT); 
-            //Sys.println("HR-ZONE 2: " + genericZoneInfo[1] + "-" +  genericZoneInfo[2]);
-            }
-            else if ( hr > genericZoneInfo[2] && hr <= genericZoneInfo[3] )  // >147 && <159
-            {
-            dc.setColor(Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT); 
-            //Sys.println("HR-ZONE 3: " + genericZoneInfo[2] + "-" +  genericZoneInfo[3]);
-            }
-            else if ( hr > genericZoneInfo[3] && hr <= genericZoneInfo[4] )  // >159 && <172
-            {
-            dc.setColor(Gfx.COLOR_YELLOW, Gfx.COLOR_TRANSPARENT); 
-            //Sys.println("HR-ZONE 4: " + genericZoneInfo[3] + "-" +  genericZoneInfo[4]);
-            }
-            else if ( hr > genericZoneInfo[4] && hr <= genericZoneInfo[5] ) // >172 && <185
-            {
-            dc.setColor(Gfx.COLOR_RED, Gfx.COLOR_TRANSPARENT);  // > 185
-            //Sys.println("HR-ZONE 5: " + genericZoneInfo[4] + "-" +  genericZoneInfo[5]);
-            }
-            else if ( hr >= genericZoneInfo[5] ) // >185
-            {
-            dc.setColor(Gfx.COLOR_DK_RED, Gfx.COLOR_TRANSPARENT); 
-            //Sys.println("HR-ZONE 5: " +  " > " + genericZoneInfo[5]);
-            }
-            else {
-                //Sys.println("DEFAULT: " + hr + " -- " + genericZoneInfo);
-            }
-        } 
-        else {
-            dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT); 
+        var check = Gfx.COLOR_WHITE;
+        // Can be developed more pretty :)
+        // At the moment it is working
+        if (color != null) {
+            check = color;
+        } else {
+            check = Gfx.COLOR_WHITE;
         }
+
+        dc.setColor(check, Gfx.COLOR_TRANSPARENT); 
         dc.setPenWidth(6);
         dc.drawCircle(dc.getWidth() / 2, dc.getHeight() / 2, 200);
     }
@@ -221,5 +184,45 @@ class BWFView extends WatchUi.View {
 
         WatchUi.requestUpdate();
     } 
+
+    function setCircleColor(circleColor as CircleColor) as Void {
+
+        switch(circleColor) {
+            case CircleColor.White:
+                label = "Zone 0";
+                color = Gfx.COLOR_WHITE;
+                break;
+            case CircleColor.Grey:
+                label = "Zone 1";
+                color = Gfx.COLOR_DK_GRAY;
+                break;
+            case CircleColor.Blue:
+                label = "Zone 2";
+                color = Gfx.COLOR_BLUE;
+                break;
+            case CircleColor.Green:
+                label = "Zone 3";
+                color = Gfx.COLOR_GREEN;
+                break;
+            case CircleColor.Orange:
+                label = "Zone 4";
+                color = Gfx.COLOR_YELLOW;
+                break;
+            case CircleColor.Red:
+                label = "Zone 5";
+                color = Gfx.COLOR_RED;
+                break;
+            case CircleColor.DarkRed:
+                label = "Zone 6";
+                color = Gfx.COLOR_DK_RED;
+                break;
+            default:
+                label = "Zone";
+                color = Gfx.COLOR_WHITE;
+                break;
+        }
+
+        WatchUi.requestUpdate();
+    }
 
 }
