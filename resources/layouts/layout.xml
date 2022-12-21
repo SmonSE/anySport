@@ -64,15 +64,15 @@
         justification="Gfx.TEXT_JUSTIFY_CENTER"
     />
     <label
-        id="label_lactate"
-        text="LACTATE"
+        id="label_effect"
+        text="EFFECT"
         x="70%"
         y="55%"
         font="Gfx.FONT_SYSTEM_XTINY"
         justification="Gfx.TEXT_JUSTIFY_CENTER"
     />
     <label
-        id="lactate"
+        id="effect"
         text="---"
         x="70%"
         y="60%"

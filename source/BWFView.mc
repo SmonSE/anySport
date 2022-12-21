@@ -20,6 +20,7 @@ class BWFView extends WatchUi.View {
     private var _leftTimeElement;
     private var _cyclesLeftElement;
     private var _drawLineUpDown;
+    private var _trainEffect;
 
     //getActivityInfo
     var actInfo = Activity.getActivityInfo();
@@ -40,6 +41,7 @@ class BWFView extends WatchUi.View {
         _leftTimeElement = findDrawableById("left_timer");
         _cyclesLeftElement = findDrawableById("cycles_left");
         _drawLineUpDown = findDrawableById("crosshair_up");
+        _trainEffect = findDrawableById("effect");
 
     }
 
@@ -95,6 +97,15 @@ class BWFView extends WatchUi.View {
         var formattedValue = cal != null ? cal.toString() : "---";
 
         _caloriesElement.setText(formattedValue);
+
+        WatchUi.requestUpdate();
+    } 
+
+    function setEffect(value as Number) as Void {
+        var effect = value.format("%.2f");
+        var formattedValue = effect != null ? effect.toString() : "---";
+
+        _trainEffect.setText(formattedValue);
 
         WatchUi.requestUpdate();
     } 

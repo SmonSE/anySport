@@ -112,6 +112,7 @@ class BWFDelegate extends WatchUi.InputDelegate {
         _view.setCurrentHR(actInfo.currentHeartRate);
         _view.setMaxHR(actInfo.maxHeartRate);
         _view.setCalories(actInfo.calories);
+        _view.setEffect(actInfo.trainingEffect);
         _view.leftTimer(myCounter);
 
         if (actInfo.currentHeartRate != null) {
