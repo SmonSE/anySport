@@ -105,12 +105,10 @@ class BWFView extends WatchUi.View {
         WatchUi.requestUpdate();
     } 
 
-    function setEffect(value as Float) as Void {
+    function setEffect(value as String) as Void {
         Sys.println("DEBUG: function BWFView.setEffect()");
-        var effect = value.format("%.2f");
-        var formattedValue = effect != null ? effect.toString() : "---";
 
-        _trainEffectElement.setText(formattedValue);
+        _trainEffectElement.setText(value);
 
         WatchUi.requestUpdate();
     } 
@@ -120,18 +118,6 @@ class BWFView extends WatchUi.View {
         var oTimeInfo = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
         var formattedValue = Lang.format("$1$:$2$:$3$", [oTimeInfo.hour.format("%02d"), oTimeInfo.min.format("%02d"), oTimeInfo.sec.format("%02d")]);
         _currentTimeElement.setText(formattedValue);
-
-        WatchUi.requestUpdate();
-    }
-
-    function updateCyclesValue(cycles as Number) as Void {
-        Sys.println("DEBUG: function BWFView.updateCyclesValue()");
-        //Cast Number to String 
-        var multipleSign = cycles == 1 ? "" : "s"; 
-        var formattedValue = cycles.toString() + "cycle" + multipleSign + "left";
-
-        _cyclesLeftElement.setText(formattedValue);
-        Sys.println("DEBUG: function BWFView.updateCyclesValue() -> " + formattedValue);
 
         WatchUi.requestUpdate();
     }

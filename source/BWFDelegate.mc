@@ -117,7 +117,18 @@ class BWFDelegate extends WatchUi.InputDelegate {
         _view.setCurrentHR(actInfo.currentHeartRate);
         _view.setMaxHR(actInfo.maxHeartRate);
         _view.setCalories(actInfo.calories);
-        _view.setEffect(actInfo.trainingEffect);
+        
+        // Can be developed more pretty :)
+        // At the moment it is working
+        if (actInfo.trainingEffect != null) {
+            var effect = actInfo.trainingEffect;
+            var shortFloat = effect.format("%.2f");
+            var formattedValue = shortFloat.toString();
+            _view.setEffect(formattedValue);
+        } else {
+            _view.setEffect("---");
+        }
+
         _view.leftTimer(DataManager.getCount());
 
         if (actInfo.currentHeartRate != null) {
@@ -159,12 +170,4 @@ class BWFDelegate extends WatchUi.InputDelegate {
             _view.setCircleColor(CircleColor.White);
         }
     }
-
-    /*
-    function test() as Void {
-        Sys.println("DEBUG:function BWFDelegate.test()");
-        var cycles = DataManager.getCyclesCount();
-        Sys.println("DEBUG: function BWFDelegate.test() " + cycles);
-    }
-    */
 }
