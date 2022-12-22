@@ -20,7 +20,7 @@ class BWFView extends WatchUi.View {
     private var _leftTimeElement;
     private var _cyclesLeftElement;
     private var _drawLineUpDown;
-    private var _trainEffect;
+    private var _trainEffectElement;
 
     //getActivityInfo
     var actInfo = Activity.getActivityInfo();
@@ -41,7 +41,7 @@ class BWFView extends WatchUi.View {
         _leftTimeElement = findDrawableById("left_timer");
         _cyclesLeftElement = findDrawableById("cycles_left");
         _drawLineUpDown = findDrawableById("crosshair_up");
-        _trainEffect = findDrawableById("effect");
+        _trainEffectElement = findDrawableById("effect");
 
     }
 
@@ -72,9 +72,11 @@ class BWFView extends WatchUi.View {
     // state of this View here. This includes freeing resources from
     // memory.
     function onHide() as Void {
+        Sys.println("DEBUG: function BWFView.onHide()");
     }
 
     function setCurrentHR(value as Number) as Void {
+        Sys.println("DEBUG: function BWFView.setCurrentHR()");
         var hr = value;
         var formattedValue = hr != null ? hr.toString() : "---";
     
@@ -84,6 +86,7 @@ class BWFView extends WatchUi.View {
     }
 
     function setMaxHR(value as Number) as Void {
+        Sys.println("DEBUG: function BWFView.setMaxHR()");
         var hr = value;
         var formattedValue = hr != null ? hr.toString() : "---";
 
@@ -93,6 +96,7 @@ class BWFView extends WatchUi.View {
     }
 
     function setCalories(value as Number) as Void {
+        Sys.println("DEBUG: function BWFView.setCalories()");
         var cal = value;
         var formattedValue = cal != null ? cal.toString() : "---";
 
@@ -101,17 +105,18 @@ class BWFView extends WatchUi.View {
         WatchUi.requestUpdate();
     } 
 
-    function setEffect(value as Number) as Void {
+    function setEffect(value as Float) as Void {
+        Sys.println("DEBUG: function BWFView.setEffect()");
         var effect = value.format("%.2f");
         var formattedValue = effect != null ? effect.toString() : "---";
 
-        _trainEffect.setText(formattedValue);
+        _trainEffectElement.setText(formattedValue);
 
         WatchUi.requestUpdate();
     } 
 
     function updateTime() as Void {
-        Sys.println("DEBUG: function BWFView.updateTime() 00:00:00");
+        Sys.println("DEBUG: function BWFView.updateTime()");
         var oTimeInfo = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
         var formattedValue = Lang.format("$1$:$2$:$3$", [oTimeInfo.hour.format("%02d"), oTimeInfo.min.format("%02d"), oTimeInfo.sec.format("%02d")]);
         _currentTimeElement.setText(formattedValue);
@@ -120,27 +125,31 @@ class BWFView extends WatchUi.View {
     }
 
     function updateCyclesValue(cycles as Number) as Void {
+        Sys.println("DEBUG: function BWFView.updateCyclesValue()");
         //Cast Number to String 
         var multipleSign = cycles == 1 ? "" : "s"; 
         var formattedValue = cycles.toString() + "cycle" + multipleSign + "left";
 
         _cyclesLeftElement.setText(formattedValue);
+        Sys.println("DEBUG: function BWFView.updateCyclesValue() -> " + formattedValue);
 
         WatchUi.requestUpdate();
     }
 
     function drawLines(dc) as Void {
-        // ... 
+        Sys.println("DEBUG: function BWFView.drawLines()");
+
         dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT); 
-        dc.setPenWidth(2); // line thickness
+        dc.setPenWidth(2);
         dc.drawLine(dc.getWidth() / 2 +0, dc.getHeight() / 2 -80, dc.getWidth() / 2 +0, dc.getHeight() / 2 +80);
         //          <---x                     --y--                       x----->               --y--
         dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT); 
-        dc.setPenWidth(2); // line thickness
+        dc.setPenWidth(2);
         dc.drawLine(dc.getWidth() / 2 -150, dc.getHeight() / 2 +0, dc.getWidth() / 2 +150, dc.getHeight() / 2 +0);
     }
 
     function drawCircle(dc) as Void {
+        Sys.println("DEBUG: function BWFView.drawCircle()");
         var check = Gfx.COLOR_WHITE;
         // Can be developed more pretty :)
         // At the moment it is working
@@ -176,7 +185,7 @@ class BWFView extends WatchUi.View {
     }
 
     function leftTimer(value as Number) as Void {
-        Sys.println("DEBUG: function BWFDelegate.leftTimer() ### VALUE ### " + value);
+        Sys.println("DEBUG: function BWFDelegate.leftTimer()");
 
         var msValue = value * 1000;
         var sign = "";
@@ -197,6 +206,7 @@ class BWFView extends WatchUi.View {
     } 
 
     function setCircleColor(circleColor as CircleColor) as Void {
+        Sys.println("DEBUG: function BWFDelegate.setCircleColor()");
 
         switch(circleColor) {
             case CircleColor.White:

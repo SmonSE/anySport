@@ -12,7 +12,6 @@ using Toybox.System as Sys;
 class BWFDelegate extends WatchUi.InputDelegate {
 
     private var _inProgress = false;
-
     private var _timer;
     private var _view = getView();
 
@@ -83,37 +82,43 @@ class BWFDelegate extends WatchUi.InputDelegate {
 
     function onBack() {
         Sys.println("DEBUG: function BWFDelegate.onBack()");
-        return true;
+        if (session != null) {
+            session.addLap();
+
+            return true;
+        } 
+        session = null;
+        return false;
     }
 
     function onNextPage() {
-        //Sys.println("DEBUG: function BWFDelegate.onNextPage()");
+        Sys.println("DEBUG: function BWFDelegate.onNextPage()");
         return true;
     }
 
     function onPreviousPage() {
-        //Sys.println("DEBUG: function BWFDelegate.onPreviousPage()");
+        Sys.println("DEBUG: function BWFDelegate.onPreviousPage()");
         return true;
     }
 
     function startCountdown() {
-        //Sys.println("DEBUG: function BWFDelegate.startCountdown()");
+        Sys.println("DEBUG: function BWFDelegate.startCountdown()");
         _timer = new Timer.Timer();
         // every second call this method -> updateCountdownValue
         _timer.start(method(:updateParamValues), 1000, true);
     }
 
     function updateParamValues() as Void {
-        //Sys.println("DEBUG: bwf_App.updateParamValues() -> HR / MAX-HR / CALORIES");
+        Sys.println("DEBUG: function BWFDelegate.updateParamValues()");
         var actInfo = Activity.getActivityInfo();
         var genericZoneInfo = UserProfile.getHeartRateZones(UserProfile.HR_ZONE_SPORT_GENERIC);
-        myCounter = myCounter +1;
+        DataManager.setCount(DataManager.getCount() +1);
 
         _view.setCurrentHR(actInfo.currentHeartRate);
         _view.setMaxHR(actInfo.maxHeartRate);
         _view.setCalories(actInfo.calories);
         _view.setEffect(actInfo.trainingEffect);
-        _view.leftTimer(myCounter);
+        _view.leftTimer(DataManager.getCount());
 
         if (actInfo.currentHeartRate != null) {
             var hr = actInfo.currentHeartRate;
@@ -154,4 +159,12 @@ class BWFDelegate extends WatchUi.InputDelegate {
             _view.setCircleColor(CircleColor.White);
         }
     }
+
+    /*
+    function test() as Void {
+        Sys.println("DEBUG:function BWFDelegate.test()");
+        var cycles = DataManager.getCyclesCount();
+        Sys.println("DEBUG: function BWFDelegate.test() " + cycles);
+    }
+    */
 }
