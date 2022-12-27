@@ -19,19 +19,25 @@ class BWFDelegate extends WatchUi.InputDelegate {
     var session = null;
 
     function initialize() {
+        //Sys.println("DEBUG: function BWFDelegate.initialize()");
         InputDelegate.initialize();
     }
 
+
     function onTap(clickEvent) {
-      //return onSelect();  -> deactivation of touch screen
-      return true;
+        Sys.println("DEBUG: function BWFDelegate.onTap()");
+        //return onSelect();  -> deactivation of touch screen
+        return true;
     }
 
     function onHold(clickEvent) {
+        //Sys.println("DEBUG: function BWFDelegate.onHold()");
         return true;
     }
-        
+  
     function onSwipe(evt) {
+        Sys.println("DEBUG: function BWFDelegate.onSwipe()");
+        BWFMenuDelegate.onMenu();
         return true;
     }
 
@@ -39,7 +45,7 @@ class BWFDelegate extends WatchUi.InputDelegate {
         Sys.println("key event " + keyEvent.getKey());
         // ENTER/START
         if (keyEvent.getKey() == WatchUi.KEY_ENTER || keyEvent.getKey() == WatchUi.KEY_START) {
-            return onSelect();
+            return onSelect(0); 
         }
         // BACK
         else if (keyEvent.getKey() == WatchUi.KEY_LAP || keyEvent.getKey() == WatchUi.KEY_ESC) {
@@ -57,59 +63,81 @@ class BWFDelegate extends WatchUi.InputDelegate {
     }
 
     // use the select Start/Stop or touch for recording
-    function onSelect() {
-        if (Toybox has :ActivityRecording) {                            // check device for activity recording
-            if ((session == null) || (session.isRecording() == false)) {
-                session = ActivityRecording.createSession({             // set up recording session
-                        :name=>"Badminton",                               // set session name
-                        :sport=>ActivityRecording.SPORT_RUNNING,        // set sport type
-                        :subSport=>ActivityRecording.SUB_SPORT_TREADMILL  // set sub sport type
-                });
-                session.start();                                        // call start session
-                Sys.println("DEBUG: function BWFDelegate.onSelect() -> startCountdown()");
-                startCountdown();
+    function onSelect(item) {
+        if (item == 0) {
+            if (Toybox has :ActivityRecording) {                            // check device for activity recording
+                if ((session == null) || (session.isRecording() == false)) {
+                    session = ActivityRecording.createSession({             // set up recording session
+                            :name=>"Badminton",                               // set session name
+                            :sport=>ActivityRecording.SPORT_RUNNING,        // set sport type
+                            :subSport=>ActivityRecording.SUB_SPORT_TREADMILL  // set sub sport type
+                    });
+                    session.start();                                        // call start session
+                    //Sys.println("DEBUG: function BWFDelegate.onSelect() -> startCountdown()");
+                    startCountdown();
+                }
+                else if ((session != null) && session.isRecording()) {
+                    session.stop();                                         // stop the session
+                    session.save();                                         // save the session
+                    session = null;                                         // set session control variable to null
+                    //Sys.println("DEBUG: function BWFDelegate.onSelect() -> stopCountdown()");
+                    _timer.stop();
+                }
             }
-            else if ((session != null) && session.isRecording()) {
-                session.stop();                                         // stop the session
-                session.save();                                         // save the session
-                session = null;                                         // set session control variable to null
-                Sys.println("DEBUG: function BWFDelegate.onSelect() -> stopCountdown()");
-                _timer.stop();
+        } else {
+            Sys.println("DEBUG: function BWFDelegate.onDone() -> " + item.getId());
+            var itemConv = item.getId().toString();
+            switch (itemConv) {
+                case "itemOneId":
+                    Sys.println("DEBUG: function BWFDelegate.itemOneId()");
+                    break;
+                case "itemTwoId":
+                    Sys.println("DEBUG: function BWFDelegate.itemTwoId()");
+                    break;
+                case "itemThreeId":
+                    Sys.println("DEBUG: function BWFDelegate.itemThreeId()");
+                    onBack();
+                    break;    
             }
         }
-        return true;                                                    // return true for onSelect function
+        return true;                                                    // return true for onSelect function                                             
     }
 
     function onBack() {
-        Sys.println("DEBUG: function BWFDelegate.onBack()");
+        //Sys.println("DEBUG: function BWFDelegate.onBack()");
         if (session != null) {
             session.addLap();
 
             return true;
         } 
+        DataManager.setCount(0);
         session = null;
         return false;
     }
 
+    function onDone() {
+        Sys.println("DEBUG: function BWFDelegate.onDone()");
+    }
+
     function onNextPage() {
-        Sys.println("DEBUG: function BWFDelegate.onNextPage()");
+        //Sys.println("DEBUG: function BWFDelegate.onNextPage()");
         return true;
     }
 
     function onPreviousPage() {
-        Sys.println("DEBUG: function BWFDelegate.onPreviousPage()");
+        //Sys.println("DEBUG: function BWFDelegate.onPreviousPage()");
         return true;
     }
 
     function startCountdown() {
-        Sys.println("DEBUG: function BWFDelegate.startCountdown()");
+        //Sys.println("DEBUG: function BWFDelegate.startCountdown()");
         _timer = new Timer.Timer();
         // every second call this method -> updateCountdownValue
         _timer.start(method(:updateParamValues), 1000, true);
     }
 
     function updateParamValues() as Void {
-        Sys.println("DEBUG: function BWFDelegate.updateParamValues()");
+        //Sys.println("DEBUG: function BWFDelegate.updateParamValues()");
         var actInfo = Activity.getActivityInfo();
         var genericZoneInfo = UserProfile.getHeartRateZones(UserProfile.HR_ZONE_SPORT_GENERIC);
         DataManager.setCount(DataManager.getCount() +1);
