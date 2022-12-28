@@ -96,7 +96,7 @@ class BWFDelegate extends WatchUi.InputDelegate {
                     break;
                 case "itemThreeId":
                     Sys.println("DEBUG: function BWFDelegate.itemThreeId()");
-                    onBack();
+                    WatchUi.popView(WatchUi.SLIDE_DOWN);
                     break;    
             }
         }
