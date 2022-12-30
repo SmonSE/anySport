@@ -3,6 +3,7 @@ import Toybox.WatchUi;
 import Toybox.System;
 import Toybox.Timer;
 import Toybox.Activity;
+import Toybox.Position;
 
 using Toybox.ActivityRecording;
 using Toybox.ActivityMonitor;
@@ -22,7 +23,6 @@ class BWFDelegate extends WatchUi.InputDelegate {
         //Sys.println("DEBUG: function BWFDelegate.initialize()");
         InputDelegate.initialize();
     }
-
 
     function onTap(clickEvent) {
         Sys.println("DEBUG: function BWFDelegate.onTap()");
@@ -90,6 +90,7 @@ class BWFDelegate extends WatchUi.InputDelegate {
             switch (itemConv) {
                 case "itemOneId":
                     Sys.println("DEBUG: function BWFDelegate.itemOneId()");
+                    BWFMenuADelegate.onMenu();
                     break;
                 case "itemTwoId":
                     Sys.println("DEBUG: function BWFDelegate.itemTwoId()");
@@ -97,7 +98,17 @@ class BWFDelegate extends WatchUi.InputDelegate {
                 case "itemThreeId":
                     Sys.println("DEBUG: function BWFDelegate.itemThreeId()");
                     WatchUi.popView(WatchUi.SLIDE_DOWN);
-                    break;    
+                    break; 
+                case "itemGpsId":
+                    Sys.println("DEBUG: function BWFDelegate.itemGpsId() STATE: " + DataManager.getGPS() );
+                    if (DataManager.getGPS() == true) {
+                        DataManager.setGPS(false);
+                        Sys.println("DEBUG: function BWFDelegate.itemGpsId() ON -> OFF");
+                    } else {
+                        Sys.println("DEBUG: function BWFDelegate.itemGpsId() OFF -> ON");
+                        DataManager.setGPS(true);
+                    }
+                    break;
             }
         }
         return true;                                                    // return true for onSelect function                                             
@@ -117,6 +128,7 @@ class BWFDelegate extends WatchUi.InputDelegate {
 
     function onDone() {
         Sys.println("DEBUG: function BWFDelegate.onDone()");
+        WatchUi.popView(WatchUi.SLIDE_DOWN);
     }
 
     function onNextPage() {

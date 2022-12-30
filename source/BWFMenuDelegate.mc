@@ -16,8 +16,8 @@ class BWFMenuDelegate extends WatchUi.MenuInputDelegate {
         var delegate;
         menu.addItem(
             new MenuItem(
-                "Label_1",
-                "subLabel_1",
+                "GPS",
+                "ON/OFF",
                 "itemOneId",
                 {}
             )

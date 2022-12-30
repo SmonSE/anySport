@@ -1,3 +1,4 @@
 <properties>
     <property id="count" type="number">0</property>
+    <property id="gps" type="boolean">true</property>
 </properties>

@@ -8,4 +8,12 @@ class DataManager {
     static function setCount(count) {
         Application.Properties.setValue("count", count);
     }
+
+    static function getGPS() {
+        return Application.Properties.getValue("gps");
+    }
+
+    static function setGPS(gps) {
+        Application.Properties.setValue("gps", gps);
+    }
 }
