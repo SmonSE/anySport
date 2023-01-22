@@ -38,7 +38,7 @@ class BWFMenuDelegate extends WatchUi.MenuInputDelegate {
                 {}
             )
         );
-        delegate = new BWFDelegate(); // a WatchUi.Menu2InputDelegate
+        delegate = new BWFDelegate();
         WatchUi.pushView(menu, delegate, WatchUi.SLIDE_UP);
 
         return true;

@@ -67,10 +67,10 @@ class BWFDelegate extends WatchUi.InputDelegate {
         if (item == 0) {
             if (Toybox has :ActivityRecording) {                            // check device for activity recording
                 if ((session == null) || (session.isRecording() == false)) {
-                    session = ActivityRecording.createSession({             // set up recording session
+                    session = ActivityRecording.createSession({               // set up recording session
                             :name=>"Badminton",                               // set session name
-                            :sport=>ActivityRecording.SPORT_RUNNING,        // set sport type
-                            :subSport=>ActivityRecording.SUB_SPORT_TREADMILL  // set sub sport type
+                            :sport=>ActivityRecording.SPORT_GENERIC,          // set sport type
+                            :subSport=>ActivityRecording.SUB_SPORT_MATCH  // set sub sport type
                     });
                     session.start();                                        // call start session
                     //Sys.println("DEBUG: function BWFDelegate.onSelect() -> startCountdown()");
