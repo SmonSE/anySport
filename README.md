@@ -4,8 +4,11 @@
 Different sports can be recorded with this app. Not every value is displayed in the Garmin Connect IQ app for every selected sport. 
 With the help of the Fit Contributor, additional values can be transmitted to the Connect app.
 
+- FitContributor need to be add.
+- Change kind of Sport needs to be add to properties.
 
-## Record Sport on Venu2 with own View
+
+## Record Sport on Venu2 with an simple View
 
 
 ![Screenshot](readme.png)
