@@ -11,7 +11,7 @@ using Toybox.WatchUi as Ui;
 using Toybox.System as Sys;
 
 // HMI 
-class BWFView extends WatchUi.View {
+class anySportView extends WatchUi.View {
 
     private var _currentHrElement;
     private var _maxHrElement;
@@ -49,12 +49,12 @@ class BWFView extends WatchUi.View {
     // Restore the state of this View and prepare it to be shown. 
     // This includes loading resources into memory.
     function onShow() as Void {
-        Sys.println("DEBUG: function BWFView.onShow()");
+        Sys.println("DEBUG: function anySportView.onShow()");
     }
 
     // Update the view
     function onUpdate(dc as Dc) as Void {
-        //Sys.println("DEBUG: function BWFView.onUpdate()");
+        //Sys.println("DEBUG: function anySportView.onUpdate()");
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
 
@@ -65,7 +65,7 @@ class BWFView extends WatchUi.View {
 
       // Request UI update
     function updateUi() as Void {
-        //Sys.println("DEBUG: function BWFView.updateUi()");
+        //Sys.println("DEBUG: function anySportView.updateUi()");
         Ui.requestUpdate();
     }
 
@@ -73,11 +73,11 @@ class BWFView extends WatchUi.View {
     // state of this View here. This includes freeing resources from
     // memory.
     function onHide() as Void {
-        Sys.println("DEBUG: function BWFView.onHide()");
+        Sys.println("DEBUG: function anySportView.onHide()");
     }
 
     function setCurrentHR(value as Number) as Void {
-        //Sys.println("DEBUG: function BWFView.setCurrentHR()");
+        //Sys.println("DEBUG: function anySportView.setCurrentHR()");
         var hr = value;
         var formattedValue = hr != null ? hr.toString() : "---";
     
@@ -87,7 +87,7 @@ class BWFView extends WatchUi.View {
     }
 
     function setMaxHR(value as Number) as Void {
-        //Sys.println("DEBUG: function BWFView.setMaxHR()");
+        //Sys.println("DEBUG: function anySportView.setMaxHR()");
         var hr = value;
         var formattedValue = hr != null ? hr.toString() : "---";
 
@@ -97,7 +97,7 @@ class BWFView extends WatchUi.View {
     }
 
     function setCalories(value as Number) as Void {
-        //Sys.println("DEBUG: function BWFView.setCalories()");
+        //Sys.println("DEBUG: function anySportView.setCalories()");
         var cal = value;
         var formattedValue = cal != null ? cal.toString() : "---";
 
@@ -107,7 +107,7 @@ class BWFView extends WatchUi.View {
     } 
 
     function setEffect(value as String) as Void {
-        //Sys.println("DEBUG: function BWFView.setEffect()");
+        //Sys.println("DEBUG: function anySportView.setEffect()");
 
         _trainEffectElement.setText(value);
 
@@ -115,7 +115,7 @@ class BWFView extends WatchUi.View {
     } 
 
     function updateTime() as Void {
-        //Sys.println("DEBUG: function BWFView.updateTime()");
+        //Sys.println("DEBUG: function anySportView.updateTime()");
         var oTimeInfo = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
         var formattedValue = Lang.format("$1$:$2$:$3$", [oTimeInfo.hour.format("%02d"), oTimeInfo.min.format("%02d"), oTimeInfo.sec.format("%02d")]);
         _currentTimeElement.setText(formattedValue);
@@ -124,7 +124,7 @@ class BWFView extends WatchUi.View {
     }
 
     function drawLines(dc) as Void {
-        //Sys.println("DEBUG: function BWFView.drawLines()");
+        //Sys.println("DEBUG: function anySportView.drawLines()");
 
         dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT); 
         dc.setPenWidth(2);
@@ -136,7 +136,7 @@ class BWFView extends WatchUi.View {
     }
 
     function drawCircle(dc) as Void {
-        //Sys.println("DEBUG: function BWFView.drawCircle()");
+        //Sys.println("DEBUG: function anySportView.drawCircle()");
         var check = Gfx.COLOR_WHITE;
         // Can be developed more pretty :)
         // At the moment it is working
@@ -152,7 +152,7 @@ class BWFView extends WatchUi.View {
     }
 
     function updateParamValue() as Void {
-        //Sys.println("DEBUG: function BWFDelegate.onUpdateParams()");
+        //Sys.println("DEBUG: function anySportDelegate.onUpdateParams()");
 
         if(actInfo.currentHeartRate != null) {
             setCurrentHR(actInfo.currentHeartRate);
@@ -172,7 +172,7 @@ class BWFView extends WatchUi.View {
     }
 
     function leftTimer(value as Number) as Void {
-        //Sys.println("DEBUG: function BWFDelegate.leftTimer()");
+        //Sys.println("DEBUG: function anySportDelegate.leftTimer()");
 
         var msValue = value * 1000;
         var sign = "";
@@ -193,7 +193,7 @@ class BWFView extends WatchUi.View {
     } 
 
     function setCircleColor(circleColor as CircleColor) as Void {
-        //Sys.println("DEBUG: function BWFDelegate.setCircleColor()");
+        //Sys.println("DEBUG: function anySportDelegate.setCircleColor()");
 
         switch(circleColor) {
             case CircleColor.White:

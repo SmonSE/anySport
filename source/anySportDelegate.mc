@@ -10,7 +10,7 @@ using Toybox.ActivityMonitor;
 using Toybox.System as Sys;
 
 // Here are all Buttons defined -> business logic
-class BWFDelegate extends WatchUi.InputDelegate {
+class anySportDelegate extends WatchUi.InputDelegate {
 
     private var _inProgress = false;
     private var _timer;
@@ -20,24 +20,24 @@ class BWFDelegate extends WatchUi.InputDelegate {
     var session = null;
 
     function initialize() {
-        //Sys.println("DEBUG: function BWFDelegate.initialize()");
+        //Sys.println("DEBUG: function anySportDelegate.initialize()");
         InputDelegate.initialize();
     }
 
     function onTap(clickEvent) {
-        Sys.println("DEBUG: function BWFDelegate.onTap()");
+        Sys.println("DEBUG: function anySportDelegate.onTap()");
         //return onSelect();  -> deactivation of touch screen
         return true;
     }
 
     function onHold(clickEvent) {
-        //Sys.println("DEBUG: function BWFDelegate.onHold()");
+        //Sys.println("DEBUG: function anySportDelegate.onHold()");
         return true;
     }
   
     function onSwipe(evt) {
-        Sys.println("DEBUG: function BWFDelegate.onSwipe()");
-        BWFMenuDelegate.onMenu();
+        //Sys.println("DEBUG: function anySportDelegate.onSwipe()");
+        anySportMenuDelegate.onMenu();
         return true;
     }
 
@@ -65,47 +65,47 @@ class BWFDelegate extends WatchUi.InputDelegate {
     // use the select Start/Stop or touch for recording
     function onSelect(item) {
         if (item == 0) {
-            if (Toybox has :ActivityRecording) {                            // check device for activity recording
+            if (Toybox has :ActivityRecording) {                             // check device for activity recording
                 if ((session == null) || (session.isRecording() == false)) {
-                    session = ActivityRecording.createSession({               // set up recording session
-                            :name=>"Badminton",                               // set session name
-                            :sport=>ActivityRecording.SPORT_GENERIC,          // set sport type
-                            :subSport=>ActivityRecording.SUB_SPORT_MATCH  // set sub sport type
+                    session = ActivityRecording.createSession({              // set up recording session
+                            :name=>"AnySport",                               // set session name
+                            :sport=>ActivityRecording.SPORT_GENERIC,         // set sport type
+                            :subSport=>ActivityRecording.SUB_SPORT_GENERIC   // set sub sport type
                     });
-                    session.start();                                        // call start session
-                    //Sys.println("DEBUG: function BWFDelegate.onSelect() -> startCountdown()");
+                    session.start();                                         // call start session
+                    //Sys.println("DEBUG: function anySportDelegate.onSelect() -> startCountdown()");
                     startCountdown();
                 }
                 else if ((session != null) && session.isRecording()) {
                     session.stop();                                         // stop the session
                     session.save();                                         // save the session
                     session = null;                                         // set session control variable to null
-                    //Sys.println("DEBUG: function BWFDelegate.onSelect() -> stopCountdown()");
+                    //Sys.println("DEBUG: function anySportDelegate.onSelect() -> stopCountdown()");
                     _timer.stop();
                 }
             }
         } else {
-            Sys.println("DEBUG: function BWFDelegate.onDone() -> " + item.getId());
+            //Sys.println("DEBUG: function anySportDelegate.onDone() -> " + item.getId());
             var itemConv = item.getId().toString();
             switch (itemConv) {
                 case "itemOneId":
-                    Sys.println("DEBUG: function BWFDelegate.itemOneId()");
-                    BWFMenuADelegate.onMenu();
+                    //Sys.println("DEBUG: function anySportDelegate.itemOneId()");
+                    anySportMenuADelegate.onMenu();
                     break;
                 case "itemTwoId":
-                    Sys.println("DEBUG: function BWFDelegate.itemTwoId()");
+                    //Sys.println("DEBUG: function anySportDelegate.itemTwoId()");
                     break;
                 case "itemThreeId":
-                    Sys.println("DEBUG: function BWFDelegate.itemThreeId()");
+                    //Sys.println("DEBUG: function anySportDelegate.itemThreeId()");
                     WatchUi.popView(WatchUi.SLIDE_DOWN);
                     break; 
                 case "itemGpsId":
-                    Sys.println("DEBUG: function BWFDelegate.itemGpsId() STATE: " + DataManager.getGPS() );
+                    //Sys.println("DEBUG: function anySportDelegate.itemGpsId() STATE: " + DataManager.getGPS() );
                     if (DataManager.getGPS() == true) {
                         DataManager.setGPS(false);
-                        Sys.println("DEBUG: function BWFDelegate.itemGpsId() ON -> OFF");
+                        //Sys.println("DEBUG: function anySportDelegate.itemGpsId() ON -> OFF");
                     } else {
-                        Sys.println("DEBUG: function BWFDelegate.itemGpsId() OFF -> ON");
+                        //Sys.println("DEBUG: function anySportDelegate.itemGpsId() OFF -> ON");
                         DataManager.setGPS(true);
                     }
                     break;
@@ -115,7 +115,7 @@ class BWFDelegate extends WatchUi.InputDelegate {
     }
 
     function onBack() {
-        //Sys.println("DEBUG: function BWFDelegate.onBack()");
+        //Sys.println("DEBUG: function anySportDelegate.onBack()");
         if (session != null) {
             session.addLap();
 
@@ -127,29 +127,29 @@ class BWFDelegate extends WatchUi.InputDelegate {
     }
 
     function onDone() {
-        Sys.println("DEBUG: function BWFDelegate.onDone()");
+        //Sys.println("DEBUG: function anySportDelegate.onDone()");
         WatchUi.popView(WatchUi.SLIDE_DOWN);
     }
 
     function onNextPage() {
-        //Sys.println("DEBUG: function BWFDelegate.onNextPage()");
+        //Sys.println("DEBUG: function anySportDelegate.onNextPage()");
         return true;
     }
 
     function onPreviousPage() {
-        //Sys.println("DEBUG: function BWFDelegate.onPreviousPage()");
+        //Sys.println("DEBUG: function anySportDelegate.onPreviousPage()");
         return true;
     }
 
     function startCountdown() {
-        //Sys.println("DEBUG: function BWFDelegate.startCountdown()");
+        //Sys.println("DEBUG: function anySportDelegate.startCountdown()");
         _timer = new Timer.Timer();
         // every second call this method -> updateCountdownValue
         _timer.start(method(:updateParamValues), 1000, true);
     }
 
     function updateParamValues() as Void {
-        //Sys.println("DEBUG: function BWFDelegate.updateParamValues()");
+        //Sys.println("DEBUG: function anySportDelegate.updateParamValues()");
         var actInfo = Activity.getActivityInfo();
         var genericZoneInfo = UserProfile.getHeartRateZones(UserProfile.HR_ZONE_SPORT_GENERIC);
         DataManager.setCount(DataManager.getCount() +1);

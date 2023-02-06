@@ -4,10 +4,10 @@ import Toybox.WatchUi;
 
 using System as Sys;
 
-class BWFMenuDelegate extends WatchUi.MenuInputDelegate {
+class anySportMenuDelegate extends WatchUi.MenuInputDelegate {
 
     function initialize() {
-        Sys.println("DEBUG: function BWFMenuDelegate.initialize()");
+        Sys.println("DEBUG: function anySportMenuDelegate.initialize()");
         MenuInputDelegate.initialize();
     }
 
@@ -38,7 +38,7 @@ class BWFMenuDelegate extends WatchUi.MenuInputDelegate {
                 {}
             )
         );
-        delegate = new BWFDelegate();
+        delegate = new anySportDelegate();
         WatchUi.pushView(menu, delegate, WatchUi.SLIDE_UP);
 
         return true;
